@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Camera</title>
+
+		<script type="text/javascript" src="./Lab9.js"></script>
+		<script type="text/javascript" src="./utils.js"></script>
+		<script type="text/javascript" src="./mat_vec.js"></script>
+		<script type="text/javascript" src="./teapot.js"></script>
+
+		<script id="vertex-shader" type="x-shader/x-vertex">
+			attribute vec3 vPosition;
+			attribute vec3 vColor;
+
+			uniform mat4 M_model;
+			uniform mat4 M_camera;
+			uniform mat4 M_ortho;
+			uniform mat4 M_rot;
+
+			varying vec4 fCol;
+
+			void main() {
+				fCol = vec4(vColor, 1);
+				gl_Position = M_ortho * M_rot * M_camera * M_model * vec4(vPosition, 1.);
+			}
+		</script>
+
+		<script id="fragment-shader" type="x-shader/x-fragment">
+			precision mediump float;
+
+			varying vec4 fCol;
+
+			void main() {
+    			gl_FragColor = fCol;
+			}
+		</script>
+
+	</head>
+	<body>
+		<canvas id="gl-canvas" width="512" height="512">
+			Oops ... your browser doesn't support the HTML5 canvas element
+		</canvas>
+		<div>
+			<button type="button" id="x_button">+X</button>
+			<button type="button" id="y_button">+Y</button>
+			<button type="button" id="z_button">+Z</button>
+			<button type="button" id="ul_button">UL</button>
+			<button type="button" id="ur_button">UR</button>
+		</div>
+
+		<div>
+			<label for="roll_range">Roll</label>
+			<br>
+			<input type="range" id="roll_range" name="roll" min="-785" max="785" value="0">
+			<button type="button" id="reset_roll">Reset</button>
+		</div>
+		<div>
+			<label for="pitch_range">Pitch</label>
+			<br>
+			<input type="range" id="pitch_range" name="pitch" min="-785" max="785" value="0">
+			<button type="button" id="reset_pitch">Reset</button>
+		</div>
+		<div>
+			<label for="yaw_range">Yaw</label>
+			<br>
+			<input type="range" id="yaw_range" name="yaw" min="-785" max="785" value="0">
+			<button type="button" id="reset_yaw">Reset</button>
+		</div>
+	</body>
+</html>
